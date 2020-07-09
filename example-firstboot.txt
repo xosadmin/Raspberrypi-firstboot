@@ -1,0 +1,13 @@
+#This is an example for firstboot.txt
+
+#Function select
+change-hostname=1
+change-root-password=1
+change-ssh-port=1
+change-soft-repo=1
+change-dns=1
+
+#value you wanna change
+hostname=example-raspi
+rootpass=thisismyraspi
+sshport=1234
