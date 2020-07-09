@@ -7,6 +7,7 @@ cgsshport=$(cat /boot/firstboot.txt | grep change-ssh-port= | tr -d change-ssh-p
 cgsshroot=$(cat /boot/firstboot.txt | grep enable-root-login-remote= | tr -d enable-root-login-remote=)
 cgsoftrepo=$(cat /boot/firstboot.txt | grep change-soft-repo= | tr -d change-soft-repo=)
 cgdns=$(cat /boot/firstboot.txt | grep change-dns= | tr -d change-dns=)
+enablevnc=$(cat /boot/firstboot.txt | grep enable-vnc= | tr -d enable-vnc=)
 
 #Value Read
 HOSTNAME=$(cat /boot/firstboot.txt | grep hostname= | tr -d hostname=)
@@ -69,6 +70,13 @@ EOF
 cat>>/etc/apt/sources.list.d/raspi.list<<EOF
 deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui
 EOF
+else
+	echo "Skipped"
+fi
+
+#enable vnc access
+if [ $enablevnc = "1" ];then
+	echo "vncserver &" >> /etc/rc.local
 else
 	echo "Skipped"
 fi
