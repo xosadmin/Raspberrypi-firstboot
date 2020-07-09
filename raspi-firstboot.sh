@@ -1,9 +1,21 @@
 #!/bin/bash
+
+#Read Flag
+cghostname=$(cat /boot/firstboot.txt | grep change-hostname= | tr -d change-hostname=)
+cgrootpass=$(cat /boot/firstboot.txt | grep change-root-password= | tr -d change-root-password=)
+cgsshport=$(cat /boot/firstboot.txt | grep change-ssh-port= | tr -d change-ssh-port=)
+cgsshroot=$(cat /boot/firstboot.txt | grep enable-root-login-remote= | tr -d enable-root-login-remote=)
+cgsoftrepo=$(cat /boot/firstboot.txt | grep change-soft-repo= | tr -d change-soft-repo=)
+cgdns=$(cat /boot/firstboot.txt | grep change-dns= | tr -d change-dns=)
+
+#Value Read
 HOSTNAME=$(cat /boot/firstboot.txt | grep hostname= | tr -d hostname=)
 PASSWORD=$(cat /boot/firstboot.txt | grep rootpass= | tr -d rootpass=)
 SSHPORT=$(cat /boot/firstboot.txt | grep sshport= | tr -d sshport=)
+DNS=$(cat /boot/firstboot.txt | grep dns= | tr -d dns=)
 
 #change root password
+if [ $cgrootpass = "1" ];then
 passwd root<<EOF
 $PASSWORD
 $PASSWORD
@@ -13,22 +25,40 @@ passwd pi<<EOF
 $PASSWORD
 $PASSWORD
 EOF
+fi
 
 #change hostname
-echo $HOSTNAME > /etc/hostname
-sed -i 's/raspberrypi/$HOSTNAME/g' /etc/hosts
+if [ $cghostname = "1" ];then
+	echo $HOSTNAME > /etc/hostname
+	sed -i 's/raspberrypi/$HOSTNAME/g' /etc/hosts
+else
+	echo "Skipped"
+fi
 
 #change dns
-echo nameserver 180.76.76.76 > /etc/resolv.conf
+if [ $cgdns = "1" ];then
+	echo nameserver $DNS > /etc/resolv.conf
+else
+	echo "Skipped"
+fi
 
 #enable ssh root login
-sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
-systemctl enable ssh
+if [ $cgsshroot = "1" ];then
+	sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config
+	systemctl enable ssh
+else
+	echo "Skipped"
+fi
 
 #change ssh port
-sed -i 's/#Port 22/Port $SSHPORT/g' /etc/ssh/sshd_config
+if [ $cgsshport = "1" ];then
+	sed -i 's/#Port 22/Port $SSHPORT/g' /etc/ssh/sshd_config
+else
+	echo "Skipped"
+fi
 
 #change software repositories
+if [ $cgsoftrepo = "1" ];then
 echo  > /etc/apt/sources.list
 echo  > /etc/apt/sources.list.d/raspi.list
 cat>>/etc/apt/sources.list<<EOF
@@ -39,6 +69,9 @@ EOF
 cat>>/etc/apt/sources.list.d/raspi.list<<EOF
 deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui
 EOF
+else
+	echo "Skipped"
+fi
 
 #Reboot
 mv /etc/raspi-firstboot.sh /etc/firstboot.sh.bak
