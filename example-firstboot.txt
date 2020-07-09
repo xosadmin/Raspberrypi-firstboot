@@ -1,4 +1,4 @@
-#This is an example for firstboot.txt
+#This is an example of firstboot.txt
 
 #Function select
 change-hostname=1
@@ -11,3 +11,4 @@ change-dns=1
 hostname=example-raspi
 rootpass=thisismyraspi
 sshport=1234
+DNS=8.8.8.8
