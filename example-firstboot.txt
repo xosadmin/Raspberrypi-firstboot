@@ -4,6 +4,7 @@
 change-hostname=1
 change-root-password=1
 change-ssh-port=1
+enable-root-login-remote=1
 change-soft-repo=1
 change-dns=1
 
