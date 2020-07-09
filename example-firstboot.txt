@@ -7,7 +7,7 @@ change-ssh-port=1
 change-soft-repo=1
 change-dns=1
 
-#value you wanna change
+#values you want to change
 hostname=example-raspi
 rootpass=thisismyraspi
 sshport=1234
