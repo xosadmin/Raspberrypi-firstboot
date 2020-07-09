@@ -1,5 +1,5 @@
 This is a repository that related to my blog post, which is about Raspberry Pi first boot. This bash file is good for users that configurating Raspberry Pi without monitor.   
-Original blog post (Chinese):   
+Original blog post (Chinese): http://blog.xosadmin.com/readpost-454.xpost  
 Download modified firmware:   
 
 Usage:   
