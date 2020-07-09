@@ -1,6 +1,6 @@
 #This is an example of firstboot.txt
 
-#Function select
+#Functions select (1 is enable, and 0 is disable)
 change-hostname=1
 change-root-password=1
 change-ssh-port=1
