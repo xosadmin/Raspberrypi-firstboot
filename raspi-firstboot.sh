@@ -82,5 +82,6 @@ else
 fi
 
 #Reboot
-mv /etc/raspi-firstboot.sh /etc/firstboot.sh.bak
+mv /etc/firstboot.sh /etc/firstboot.sh.bak
+sed -i 's!sh /etc/firstboot.sh!#sh /etc/firstboot.sh!g' /etc/rc.local
 reboot
